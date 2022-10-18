@@ -5,7 +5,22 @@ const validateBody = (schema) => {
     const { error } = schema.validate(req.body);
 
     if (error) {
-      next(RequestError(400, "missing required name field"));
+      switch (req.method) {
+        case "POST":
+          next(RequestError(400, "missing required name field"));
+          break;
+
+        case "PUT":
+          next(RequestError(400, "missing fields"));
+          break;
+
+        case "PATCH":
+          next(RequestError(400, "missing field favorite"));
+          break;
+
+        default:
+          next(RequestError(400, error.message));
+      }
     }
     next();
   };

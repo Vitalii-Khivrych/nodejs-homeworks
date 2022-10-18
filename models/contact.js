@@ -4,6 +4,11 @@ const Joi = require("joi");
 const { handleSaveErrors } = require("../helpers");
 
 const phoneRegexp = /^\d{3} \d{3}-\d{4}$/;
+const nameSchema = Joi.string().alphanum().min(3).max(30).trim();
+const emailSchema = Joi.string()
+  .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
+  .trim();
+const phoneSchema = Joi.string().pattern(phoneRegexp).trim();
 
 const contactSchema = new Schema(
   {
@@ -31,22 +36,27 @@ const contactSchema = new Schema(
 contactSchema.post("save", handleSaveErrors);
 
 const addSchema = Joi.object({
-  name: Joi.string().alphanum().min(3).max(30).trim().required(),
-  email: Joi.string()
-    .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
-    .trim()
-    .required(),
-  phone: Joi.string().pattern(phoneRegexp).trim().required(),
+  name: nameSchema.required(),
+  email: emailSchema.required(),
+  phone: phoneSchema.required(),
   favorite: Joi.boolean(),
 });
 
-const updateFavoriteSchema = Joi.object({
+const updateContactSchema = Joi.object({
+  name: nameSchema,
+  email: emailSchema,
+  phone: phoneSchema,
+  favorite: Joi.boolean(),
+}).min(1);
+
+const updateStatusSchema = Joi.object({
   favorite: Joi.boolean().required(),
 });
 
 const schemas = {
   addSchema,
-  updateFavoriteSchema,
+  updateStatusSchema,
+  updateContactSchema,
 };
 
 const Contact = model("contact", contactSchema);

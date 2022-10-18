@@ -16,13 +16,18 @@ router.post("/", validateBody(schemas.addSchema), ctrlWrapper(ctrl.add));
 
 router.delete("/:contactId", isValidId, ctrlWrapper(ctrl.deleteById));
 
-router.put("/:contactId", isValidId, validateBody(schemas.addSchema), ctrlWrapper(ctrl.updateById));
+router.put(
+  "/:contactId",
+  isValidId,
+  validateBody(schemas.updateContactSchema),
+  ctrlWrapper(ctrl.updateById)
+);
 
 router.patch(
   "/:contactId/favorite",
   isValidId,
-  validateBody(schemas.updateFavoriteSchema),
-  ctrlWrapper(ctrl.updateFavorite)
+  validateBody(schemas.updateStatusSchema),
+  ctrlWrapper(ctrl.updateStatusContact)
 );
 
 module.exports = router;
