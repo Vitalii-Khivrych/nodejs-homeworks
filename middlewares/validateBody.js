@@ -7,7 +7,7 @@ const validateBody = (schema) => {
     if (error) {
       switch (req.method) {
         case "POST":
-          next(RequestError(400, "missing required name field"));
+          next(RequestError(400, "Ошибка от Joi или другой библиотеки валидации"));
           break;
 
         case "PUT":
