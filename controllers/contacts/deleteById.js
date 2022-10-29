@@ -3,7 +3,8 @@ const { RequestError } = require("../../helpers");
 
 const deleteById = async (req, res) => {
   const { contactId } = req.params;
-  const result = await Contact.findByIdAndRemove(contactId);
+  const { _id } = req.user;
+  const result = await Contact.findOneAndDelete({ contactId, owner: _id });
   console.log(result);
 
   if (!result) {

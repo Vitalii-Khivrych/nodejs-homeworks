@@ -9,14 +9,15 @@ const { schemas } = require("../../models/contact");
 
 router.get("/", auth, ctrlWrapper(ctrl.getAll));
 
-router.get("/:contactId", isValidId, ctrlWrapper(ctrl.getById));
+router.get("/:contactId", auth, isValidId, ctrlWrapper(ctrl.getById));
 
 router.post("/", auth, validateBody(schemas.addSchema), ctrlWrapper(ctrl.add));
 
-router.delete("/:contactId", isValidId, ctrlWrapper(ctrl.deleteById));
+router.delete("/:contactId", auth, isValidId, ctrlWrapper(ctrl.deleteById));
 
 router.put(
   "/:contactId",
+  auth,
   isValidId,
   validateBody(schemas.updateContactSchema),
   ctrlWrapper(ctrl.updateById)
@@ -24,6 +25,7 @@ router.put(
 
 router.patch(
   "/:contactId/favorite",
+  auth,
   isValidId,
   validateBody(schemas.updateStatusSchema),
   ctrlWrapper(ctrl.updateStatusContact)
