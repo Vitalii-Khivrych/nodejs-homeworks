@@ -8,7 +8,7 @@ const getAll = async (req, res) => {
 
   const filterValue = favorite ? { owner: _id, favorite } : { owner: _id };
 
-  const result = await Contact.find(filterValue, "", {
+  const result = await Contact.find(filterValue, "-createdAt -updatedAt", {
     skip: skip,
     limit: parseInt(limit, 10),
   })
