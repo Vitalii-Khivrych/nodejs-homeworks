@@ -16,6 +16,7 @@ const updateAvatar = async (req, res) => {
 
     const extension = originalname.split(".").pop();
     const newAvatarName = `${_id}.${extension}`;
+
     const avatarPath = path.join(avatarDir, newAvatarName);
     await fs.rename(tempUpload, avatarPath);
 
