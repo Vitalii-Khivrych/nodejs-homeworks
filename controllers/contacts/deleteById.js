@@ -4,7 +4,7 @@ const { RequestError } = require("../../helpers");
 const deleteById = async (req, res) => {
   const { contactId } = req.params;
   const { _id } = req.user;
-  const result = await Contact.findOneAndDelete({ contactId, owner: _id });
+  const result = await Contact.findOneAndDelete({ _id: contactId, owner: _id });
   console.log(result);
 
   if (!result) {
