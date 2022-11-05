@@ -5,13 +5,17 @@ const { User } = require("../../models");
 
 const { SECRET_KEY } = process.env;
 
-const login = async (req, res, next) => {
+const login = async (req, res) => {
   const { email, password } = req.body;
 
   const user = await User.findOne({ email });
 
   if (!user || !user.comparePassword(password)) {
     throw RequestError(401, "Email or password is wrong");
+  }
+
+  if (!user.verify) {
+    throw RequestError(403, "Email not verify");
   }
 
   const payload = {
