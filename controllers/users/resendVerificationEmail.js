@@ -12,7 +12,7 @@ const resendVerificationEmail = async (req, res) => {
     throw RequestError(404, "Not found");
   }
 
-  if (!user.verify) {
+  if (user.verify) {
     throw RequestError(400, "Verification has already been passed");
   }
 
